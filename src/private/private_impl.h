@@ -77,6 +77,7 @@ namespace raspicam {
                 ThreadCondition Thcond;
                 bool wantToGrab;
                 membuf<unsigned char> _buffData;
+                uint64_t npts;
             };
 
             public:
@@ -110,7 +111,7 @@ namespace raspicam {
             * So type param is ignored. Do not use this parameter.
             * You can use getFormat to know the current format
              */
-            void retrieve ( unsigned char *data,RASPICAM_FORMAT type=RASPICAM_FORMAT_IGNORE );
+            void retrieve ( unsigned char *data,uint64_t& pts,RASPICAM_FORMAT type=RASPICAM_FORMAT_IGNORE );
             /**Alternative to retrieve. Returns a pointer to the original image data buffer.
               * Be careful, if you call grab(), this will be rewritten with the new data
              */

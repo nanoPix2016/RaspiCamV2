@@ -130,10 +130,10 @@ int main ( int argc,char **argv ) {
     cout<<"Capturing"<<endl;
 
     double time_=cv::getTickCount();
-
+    uint64_t pts;
     for ( int i=0; i<nCount; i++ ) {
         Camera.grab();
-        Camera.retrieve ( image );
+        Camera.retrieve ( image,pts );
         if ( !doTestSpeedOnly ) {
             if ( i%5==0 ) 	  cout<<"\r capturing ..."<<i<<"/"<<nCount<<std::flush;
             if ( i%30==0 && i!=0 )

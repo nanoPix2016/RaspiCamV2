@@ -108,11 +108,11 @@ time_t timer_begin,timer_end;
             State.hflip = State.vflip = 0;
             State.roi.x = 0.0;
             State.roi.y = 0.0;
-            State.roi.w = 1.0;
-            State.roi.h = 1.0;
+            State.roi.w = 1;
+            State.roi.h = 1;
             State.shutterSpeed = 0;//auto
-            State.awbg_red = 1.0;
-            State.awbg_blue = 1.0;
+            State.awbg_red = 0.5;
+            State.awbg_blue = 0.8;
 
         }
         bool  Private_Impl::open ( bool StartCapture ) {
@@ -161,8 +161,6 @@ gettimeofday(&start, NULL);
             int q;
             for ( q=0; q<num; q++ ) {
                 MMAL_BUFFER_HEADER_T *buffer = mmal_queue_get ( State.video_pool->queue );
-num1 = mmal_queue_length ( State.video_pool->queue );
-cout<<"new queue length "<<num1<<endl;
                 if ( !buffer )
                     cerr<<"Unable to get a required buffer"<<q<<" from pool queue"<<endl;
 
@@ -207,16 +205,17 @@ cout<<"new queue length "<<num1<<endl;
         /**
         *
          */
-        void Private_Impl::retrieve ( unsigned char *data,RASPICAM_FORMAT type ) {
+        void Private_Impl::retrieve ( unsigned char *data,uint64_t& pts ,RASPICAM_FORMAT type) {
             if ( callback_data._buffData.size==0 ) return;
             if ( type!=RASPICAM_FORMAT_IGNORE ) {
                 cerr<<__FILE__<<":"<<__LINE__<<" :Private_Impl::retrieve type is not RASPICAM_FORMAT_IGNORE as it should be"<<endl;
             }
             memcpy ( data,callback_data._buffData.data,getImageTypeSize ( State.captureFtm ) );
+            pts=callback_data.npts;
         }
 
 
-        
+
 
 
         unsigned char *Private_Impl::getImageBufferData() const{
@@ -315,9 +314,9 @@ cout<<"new queue length "<<num1<<endl;
             * @param camera Pointer to camera component
  	    * @param rect   Normalised coordinates of ROI rectangle
             *
-            * 
+            *
             */
- 
+
             MMAL_PARAMETER_INPUT_CROP_T crop = {{MMAL_PARAMETER_INPUT_CROP, sizeof(MMAL_PARAMETER_INPUT_CROP_T)}};
             double x = state->roi.x;
             double y = state->roi.y;
@@ -564,7 +563,7 @@ cout<<"new queue length "<<num1<<endl;
 
 
                     memcpy ( pData->_buffData.data,buffer->data,buffer->length );
-                    printf("Presentation time: %lf millisecond\n", ((buffer->pts)/1000.0));
+                  pData->npts=buffer->pts;
                     //tst=buffer->pts;
                     pData->wantToGrab =false;
                     hasGrabbed=true;
@@ -841,9 +840,9 @@ cout<<"new queue length "<<num1<<endl;
         int Private_Impl::convertFormat ( RASPICAM_FORMAT fmt ) {
             switch ( fmt ) {
             case RASPICAM_FORMAT_RGB:
-                return MMAL_ENCODING_BGR24;
-            case RASPICAM_FORMAT_BGR:
                 return MMAL_ENCODING_RGB24;
+            case RASPICAM_FORMAT_BGR:
+                return MMAL_ENCODING_BGR24;
             case RASPICAM_FORMAT_GRAY:
                 return MMAL_ENCODING_I420;
             case RASPICAM_FORMAT_YUV420:

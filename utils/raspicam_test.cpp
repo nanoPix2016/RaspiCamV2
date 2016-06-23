@@ -204,10 +204,11 @@ int main ( int argc,char **argv ) {
 
     cout<<"Capturing...."<<endl;
     size_t i=0;
+  uint64_t pts;
     timer.start();
  do{
         Camera.grab();
-        Camera.retrieve ( data );
+        Camera.retrieve ( data,pts );
         if ( !doTestSpeedOnly ) {
             if ( i%5==0 ) 	  cout<<"\r capturing ..."<<i<<"/"<<nFramesCaptured<<std::flush;
             if ( i%30==0 && i!=0  && nFramesCaptured>0 ) { //save image if not in inifite loop

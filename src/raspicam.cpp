@@ -60,8 +60,8 @@ namespace raspicam {
         return _impl->grab();
     }
 
-    void RaspiCam::retrieve ( unsigned char *data,RASPICAM_FORMAT type ) {
-        _impl->retrieve ( data,type );
+    void RaspiCam::retrieve ( unsigned char *data,uint64_t& pts,RASPICAM_FORMAT type ) {
+        _impl->retrieve ( data,pts,type );
     }
     unsigned char *RaspiCam::getImageBufferData() const{return _impl->getImageBufferData();}
     size_t RaspiCam::getImageBufferSize() const{return _impl->getImageBufferSize();}

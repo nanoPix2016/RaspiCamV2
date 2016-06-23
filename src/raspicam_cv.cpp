@@ -83,10 +83,10 @@ namespace raspicam {
     /**
     *Decodes and returns the grabbed video frame.
      */
-    void RaspiCam_Cv::retrieve ( cv::Mat& image ) {
+    void RaspiCam_Cv::retrieve ( cv::Mat& image,uint64_t& pts ) {
         //here we go!
         image.create ( _impl->getHeight(),_impl->getWidth(),imgFormat );
-        _impl->retrieve ( image.ptr<uchar> ( 0 ));
+        _impl->retrieve ( image.ptr<uchar> ( 0 ), pts);
     }
 
     /**Returns the specified VideoCapture property
