@@ -1,4 +1,4 @@
-/**********************************************************
+ /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
  Main author Rafael Munoz Salinas (rmsalinas at uco dot es)
  This software is released under BSD license as expressed below
@@ -111,7 +111,7 @@ void processCommandLine ( int argc,char **argv,raspicam::RaspiCam &Camera ) {
 
     if ( findParam ( "-gr",argc,argv ) !=-1 )
       Camera.setFormat(raspicam::RASPICAM_FORMAT_GRAY);
-    if ( findParam ( "-yuv",argc,argv ) !=-1 ) 
+    if ( findParam ( "-yuv",argc,argv ) !=-1 )
       Camera.setFormat(raspicam::RASPICAM_FORMAT_YUV420);
     if ( findParam ( "-test_speed",argc,argv ) !=-1 )
         doTestSpeedOnly=true;
@@ -188,11 +188,11 @@ int main ( int argc,char **argv ) {
         return -1;
     }
 
-  
+
     raspicam::RaspiCam Camera;
     processCommandLine ( argc,argv,Camera );
     cout<<"Connecting to camera"<<endl;
-    
+
     if ( !Camera.open() ) {
         cerr<<"Error opening camera"<<endl;
         return -1;
