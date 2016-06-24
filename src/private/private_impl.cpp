@@ -357,7 +357,7 @@ gettimeofday(&start, NULL);
             if ( video_port->buffer_num < VIDEO_OUTPUT_BUFFERS_NUM )
                 video_port->buffer_num = VIDEO_OUTPUT_BUFFERS_NUM;
             video_port->buffer_size = video_port->buffer_size_recommended;
-            cout<<video_port->buffer_size<<endl;
+          
 	    //video_port->buffer_num = video_port->buffer_num_recommended;
 
 

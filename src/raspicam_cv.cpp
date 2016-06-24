@@ -190,18 +190,18 @@ namespace raspicam {
         case CV_CAP_PROP_WHITE_BALANCE_RED_V:
                 if (value==0) _impl->setAWB(raspicam::RASPICAM_AWB_AUTO);
                 else  {
-                    int valblue=_impl->getAWBG_blue()*100;
-                     _impl->setAWB(raspicam::RASPICAM_AWB_OFF);
-                     _impl->setAWB_RB(value*100,valblue);
+                    double valblue=_impl->getAWBG_blue();
+                   _impl->setAWB(raspicam::RASPICAM_AWB_OFF);
+                     _impl->setAWB_RB(value/100.0,valblue);
                 };
         break;
 
         case CV_CAP_PROP_WHITE_BALANCE_BLUE_U:
                 if (value==0) _impl->setAWB(raspicam::RASPICAM_AWB_AUTO);
                 else  {
-                    int valred=_impl->getAWBG_red()*100;
+                    double valred=_impl->getAWBG_red();
                      _impl->setAWB(raspicam::RASPICAM_AWB_OFF);
-                     _impl->setAWB_RB(valred, value*100 );
+                     _impl->setAWB_RB(valred, value/100.0 );
                 };
         break;
 

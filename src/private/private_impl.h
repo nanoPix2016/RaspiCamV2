@@ -143,7 +143,6 @@ namespace raspicam {
             void setExposureCompensation ( int val ); //-10,10
             void setAWB ( RASPICAM_AWB awb );
             void setAWB_RB ( float red,float blue );//ranges [0,1]
-
             void setImageEffect ( RASPICAM_IMAGE_EFFECT imageEffect );
             void setMetering ( RASPICAM_METERING metering );
             void setHorizontalFlip ( bool hFlip );
