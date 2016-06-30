@@ -3,11 +3,12 @@
 #include "mmal/util/mmal_util_params.h"
 #include "mmal/mmal.h"
 #include "mmal/util/mmal_connection.h"
- MMAL_BUFFER_HEADER_T *mmal_queue_get(MMAL_QUEUE_T *queue){}
+
+MMAL_BUFFER_HEADER_T *mmal_queue_get(MMAL_QUEUE_T *queue){}
 MMAL_STATUS_T mmal_buffer_header_mem_lock(MMAL_BUFFER_HEADER_T *header){}
 
 void mmal_buffer_header_mem_unlock(MMAL_BUFFER_HEADER_T *header){}
- void mmal_port_pool_destroy(MMAL_PORT_T *port, MMAL_POOL_T *pool){}
+void mmal_port_pool_destroy(MMAL_PORT_T *port, MMAL_POOL_T *pool){}
 
 /** Create an instance of a component.
  * The newly created component will expose ports to the client. All the exposed ports are

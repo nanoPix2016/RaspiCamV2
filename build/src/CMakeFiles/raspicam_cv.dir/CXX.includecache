@@ -479,6 +479,10 @@ private_types.h
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private/private_types.h
 threadcondition.h
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private/threadcondition.h
+iostream
+-
+cstdio
+-
 
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private/private_types.h
 

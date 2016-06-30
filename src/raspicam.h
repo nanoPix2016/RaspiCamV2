@@ -1,3 +1,13 @@
+/**
+ * Originally Raspicam-0.1.3
+ * Modified into OurRaspicam-1.0.0
+ * Fixed many bugs and added functionality
+ * By:  ThreePixelsTeam(Subrato Chakraborty, Om Sahoo and Piyush Soni)
+ * 		IIT Varanasi
+ * 		 
+ */ 		
+
+
 /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
  Main author Rafael Munoz Salinas (rmsalinas at uco dot es)

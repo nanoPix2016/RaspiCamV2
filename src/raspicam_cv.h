@@ -1,3 +1,12 @@
+/**
+ * Originally Raspicam-0.1.3
+ * Modified into OurRaspicam-1.0.0
+ * Fixed many bugs and added functionality
+ * By:  ThreePixelsTeam(Subrato Chakraborty, Om Sahoo and Piyush Soni)
+ * 		IIT Varanasi
+ * 		 
+ */ 		
+
 /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
  Main author Rafael Munoz Salinas (rmsalinas at uco dot es)
@@ -41,79 +50,79 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <opencv2/highgui/highgui.hpp>
 namespace raspicam {
 
-    namespace _private{
-        class Private_Impl;
-    };
-    /**Class for using Raspberry camera as in opencv
+namespace _private {
+class Private_Impl;
+};
+/**Class for using Raspberry camera as in opencv
+*/
+class RaspiCam_Cv {
+    _private::Private_Impl *_impl;
+public:
+    /**Constructor
+     */
+    RaspiCam_Cv();
+    /**Destructor
+     */
+    ~RaspiCam_Cv();
+    /** Open  capturing device for video capturing
+     */
+    bool open ( void );
+    /**
+     * Returns true if video capturing has been initialized already.
+     */
+    bool isOpened() const;
+    /**
+    *Closes video file or capturing device.
     */
-    class RaspiCam_Cv {
-        _private::Private_Impl *_impl;
-        public:
-        /**Constructor
-         */
-        RaspiCam_Cv();
-        /**Destructor
-         */
-        ~RaspiCam_Cv();
-        /** Open  capturing device for video capturing
-         */
-        bool open ( void );
-        /**
-         * Returns true if video capturing has been initialized already.
-         */
-        bool isOpened() const;
-        /**
-        *Closes video file or capturing device.
-        */
-        void release();
+    void release();
 
-        /**
-         * Grabs the next frame from video file or capturing device.
-         */
-        bool grab();
+    /**
+     * Grabs the next frame from video file or capturing device.
+     */
+    bool grab();
 
-        /**
-        *Decodes and returns the grabbed video frame.
-         */
-        void retrieve ( cv::Mat& image ,uint64_t& pts);
+    /**
+    *Decodes and returns the grabbed video frame.
+     */
+    void retrieve ( cv::Mat& image , uint64_t& pts);
 
-        /**Returns the specified VideoCapture property
-         */
+    /**Returns the specified VideoCapture property
+     */
 
 
-        
-        uint64_t getTime();
+
+    uint64_t getTime();
 
 
-        double get ( int propId );
+    double get ( int propId );
 
 
-        /**Sets a property in the VideoCapture. 
-	 * 
-	 * 
-	 * Implemented properties:
-	 * CV_CAP_PROP_FRAME_WIDTH,CV_CAP_PROP_FRAME_HEIGHT,
-	 * CV_CAP_PROP_FORMAT: CV_8UC1 or CV_8UC3
-	 * CV_CAP_PROP_BRIGHTNESS: [0,100]
-	 * CV_CAP_PROP_CONTRAST: [0,100]
-	 * CV_CAP_PROP_SATURATION: [0,100]
-	 * CV_CAP_PROP_GAIN: (iso): [0,100]
-	 * CV_CAP_PROP_EXPOSURE: -1 auto. [1,100] shutter speed from 0 to 33ms
-     * CV_CAP_PROP_WHITE_BALANCE_RED_V : [1,100] -1 auto whitebalance
-     * CV_CAP_PROP_WHITE_BALANCE_BLUE_U : [1,100] -1 auto whitebalance
+    /**Sets a property in the VideoCapture.
+    *
      *
-         */
+     * Implemented properties:
+     * CV_CAP_PROP_FRAME_WIDTH,CV_CAP_PROP_FRAME_HEIGHT,
+     * CV_CAP_PROP_FORMAT: CV_8UC1 or CV_8UC3
+     * CV_CAP_PROP_BRIGHTNESS: [0,100]
+     * CV_CAP_PROP_CONTRAST: [0,100]
+     * CV_CAP_PROP_SATURATION: [0,100]
+     * CV_CAP_PROP_GAIN: (iso): [0,100]
+     * CV_CAP_PROP_EXPOSURE: -1 auto. [1,100] shutter speed from 0 to 33ms
+       * CV_CAP_PROP_WHITE_BALANCE_RED_V : [1,100] -1 auto whitebalance
+       * CV_CAP_PROP_WHITE_BALANCE_BLUE_U : [1,100] -1 auto whitebalance
+       *
+           */
 
-        bool set ( int propId, double value );
+    bool set ( int propId, double value );
 
-        /** Returns the camera identifier. We assume the camera id is the one of the raspberry obtained using raspberry serial number obtained in /proc/cpuinfo
-         */
-        std::string getId()const;
+    /** Returns the camera identifier. We assume the camera id is the one of the raspberry obtained using raspberry serial number obtained in /proc/cpuinfo
+     */
+    std::string getId()const;
 
-        private:
-        cv::Mat image;
-        int imgFormat;//required image format //
-     };
+private:
+    cv::Mat image;
+    int imgFormat;//required image format //
+};
 
 };
 #endif
