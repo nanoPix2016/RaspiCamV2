@@ -44,6 +44,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "raspicamtypes.h"
 #include "private_types.h" 
 #include "threadcondition.h"
+#include <iostream>
+#include <cstdio>
+
+
 namespace raspicam {
     namespace _private
     {
