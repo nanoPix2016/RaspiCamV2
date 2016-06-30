@@ -58,7 +58,7 @@ namespace _private {
 #define MMAL_CAMERA_VIDEO_PORT 1
 #define MMAL_CAMERA_CAPTURE_PORT 2
 #define VIDEO_FRAME_RATE_DEN 1
-#define VIDEO_OUTPUT_BUFFERS_NUM 3
+#define VIDEO_OUTPUT_BUFFERS_NUM 1
 
 
 
@@ -90,9 +90,9 @@ void Private_Impl::setDefaultStateParams() {
 
     // Default everything to zero
     memset ( &State, 0, sizeof ( RASPIVID_STATE ) );
-    State.framerate         = 120;
-    State.width             = 320;      // use a multiple of 320 (640, 1280)
-    State.height            = 240;      // use a multiple of 240 (480, 960)
+    State.framerate         = 50;
+    State.width             = 640;      // use a multiple of 320 (640, 1280)
+    State.height            = 480;      // use a multiple of 240 (480, 960)
     State.sharpness         = 0;
     State.contrast          = 0;
     State.brightness = 50;
@@ -311,7 +311,7 @@ MMAL_COMPONENT_T *Private_Impl::create_camera_component ( RASPIVID_STATE *state 
      *
      */
 
-    MMAL_PARAMETER_INPUT_CROP_T crop = {{MMAL_PARAMETER_INPUT_CROP, sizeof(MMAL_PARAMETER_INPUT_CROP_T)}};
+ /*  MMAL_PARAMETER_INPUT_CROP_T crop = {{MMAL_PARAMETER_INPUT_CROP, sizeof(MMAL_PARAMETER_INPUT_CROP_T)}};
     double x = state->roi.x;
     double y = state->roi.y;
     double w = state->roi.w;
@@ -325,7 +325,7 @@ MMAL_COMPONENT_T *Private_Impl::create_camera_component ( RASPIVID_STATE *state 
     crop.rect.width = (65536 * w);
     crop.rect.height = (65536 * h);
 
-    mmal_port_parameter_set(camera->control, &crop.hdr);
+    mmal_port_parameter_set(camera->control, &crop.hdr);*/
 
     // Set the encode format on the video  port
     format = video_port->format;

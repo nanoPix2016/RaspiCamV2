@@ -121,7 +121,8 @@ double RaspiCam_Cv::get ( int propId ) {
         return Scaler::scale ( -100, 100, 0, 100,  _impl->getContrast() );
     case CV_CAP_PROP_SATURATION :
         return  Scaler::scale ( -100, 100, 0, 100, _impl->getSaturation() );;
-//     case CV_CAP_PROP_HUE : return _cam_impl->getSharpness();
+    case CV_CAP_PROP_HUE :
+        return Scaler::scale ( -100,100,0,100,  _impl->getSharpness() ); 
     case CV_CAP_PROP_GAIN :
         return  Scaler::scale ( 0, 800, 0, 100, _impl->getISO() );
     case CV_CAP_PROP_EXPOSURE :
@@ -181,8 +182,9 @@ bool RaspiCam_Cv::set ( int propId, double value ) {
     case CV_CAP_PROP_SATURATION :
         _impl->setSaturation ( Scaler::scale ( 0, 100, -100, 100, value ) );
         break;
-//     case CV_CAP_PROP_HUE : return _cam_impl->getSharpness();
-
+    case CV_CAP_PROP_HUE :
+        _impl->setSharpness ( Scaler::scale ( 0,100,-100,100, value ) );
+        break;
     case CV_CAP_PROP_GAIN :
         _impl->setISO ( Scaler::scale ( 0, 100, 0, 800, value ) );
         break;

@@ -134,6 +134,16 @@ mmal_common.h
 
 ../dependencies/mmal/util/mmal_connection.h
 
+../dependencies/mmal/util/mmal_default_components.h
+
+../dependencies/mmal/util/mmal_util.h
+mmal.h
+../dependencies/mmal/util/mmal.h
+
+../dependencies/mmal/util/mmal_util_params.h
+mmal.h
+../dependencies/mmal/util/mmal.h
+
 ../dependencies/vcos/generic/vcos_common.h
 
 ../dependencies/vcos/generic/vcos_generic_blockpool.h
@@ -454,6 +464,8 @@ pthreads/vcos_platform_types.h
 vcos_attr.h
 ../dependencies/vcos/vcos_attr.h
 
+../src/./raspicamtypes.h
+
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private/exceptions.h
 string
 -
@@ -496,6 +508,34 @@ condition_variable
 exceptions.h
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private/exceptions.h
 
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/private_still_impl.cpp
+fstream
+-
+private_still_impl.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/private_still_impl.h
+mmal/mmal_buffer.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/mmal/mmal_buffer.h
+mmal/util/mmal_default_components.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/mmal/util/mmal_default_components.h
+mmal/util/mmal_util.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/mmal/util/mmal_util.h
+mmal/util/mmal_util_params.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/mmal/util/mmal_util_params.h
+iostream
+-
+semaphore.h
+-
+
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/private_still_impl.h
+raspicamtypes.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/raspicamtypes.h
+mmal/mmal.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/mmal/mmal.h
+mmal/util/mmal_connection.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/mmal/util/mmal_connection.h
+string
+-
+
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/raspicam.cpp
 raspicam.h
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/raspicam.h
@@ -509,6 +549,18 @@ string
 -
 raspicamtypes.h
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/raspicamtypes.h
+
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/raspicam_still.cpp
+raspicam_still.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/raspicam_still.h
+private_still/private_still_impl.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/private_still/private_still_impl.h
+
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/raspicam_still.h
+raspicamtypes.h
+/home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/raspicamtypes.h
+cstdio
+-
 
 /home/pi/Libraries/raspicam-0.1.3/raspicam-0.1.3/src/raspicamtypes.h
 
