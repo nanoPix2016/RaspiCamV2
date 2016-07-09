@@ -1,11 +1,11 @@
 /**
  * Originally Raspicam-0.1.3
- * Modified into OurRaspicam-1.0.0
+ * Modified into Raspicam v2
  * Fixed many bugs and added functionality
  * By:  ThreePixelsTeam(Subrato Chakraborty, Om Sahoo and Piyush Soni)
  * 		IIT Varanasi
- * 		 
- */ 		
+ *
+ */
 
 /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
@@ -58,12 +58,12 @@ namespace _private {
 #define MMAL_CAMERA_VIDEO_PORT 1
 #define MMAL_CAMERA_CAPTURE_PORT 2
 #define VIDEO_FRAME_RATE_DEN 1
-#define VIDEO_OUTPUT_BUFFERS_NUM 1
+#define VIDEO_OUTPUT_BUFFERS_NUM 3
 
 
 
-
-
+ unsigned char* p;
+uint64_t *npts;
 long long tst = 0;
 struct timeval start, end;
 long  seconds, useconds;
@@ -76,7 +76,7 @@ Private_Impl::Private_Impl() {
 
     _isOpened = false;
     _isCapturing = false;
-   
+
     //set default state params
     setDefaultStateParams();
 }
@@ -90,7 +90,7 @@ void Private_Impl::setDefaultStateParams() {
 
     // Default everything to zero
     memset ( &State, 0, sizeof ( RASPIVID_STATE ) );
-    State.framerate         = 50;
+    State.framerate         = 90;
     State.width             = 640;      // use a multiple of 320 (640, 1280)
     State.height            = 480;      // use a multiple of 240 (480, 960)
     State.sharpness         = 0;
@@ -114,14 +114,14 @@ void Private_Impl::setDefaultStateParams() {
     State.roi.y = 0.0;
     State.roi.w = 1;
     State.roi.h = 1;
-    State.shutterSpeed = 0;         //auto, 0.33 sec maximum
+    State.shutterSpeed = 400;         //auto, 0.33 sec maximum
     State.awbg_red = 0.5;
     State.awbg_blue = 0.8;
 
 }
 bool  Private_Impl::open ( bool StartCapture ) {
     if ( _isOpened ) return false; //already opened
-    
+
     // create camera
     if ( ! create_camera_component ( &State ) ) {
         cerr << __func__ << " Failed to create camera component" << __FILE__ << " " << __LINE__ << endl;
@@ -131,7 +131,7 @@ bool  Private_Impl::open ( bool StartCapture ) {
     camera_video_port   = State.camera_component->output[MMAL_CAMERA_VIDEO_PORT];
 
     callback_data.pstate = &State;
-    
+
     // assign data to use for callback
     camera_video_port->userdata = ( struct MMAL_PORT_USERDATA_T * ) &callback_data;
 
@@ -182,7 +182,7 @@ void Private_Impl::release() {
         mmal_port_disable ( camera_video_port );
         camera_video_port = NULL;
     }
-    
+
     // Disable all our ports that are not handled by connections
     if ( State.camera_component )
         mmal_component_disable ( State.camera_component );
@@ -195,22 +195,32 @@ void Private_Impl::release() {
 
 }
 
-/** 
+/**
  */
 bool Private_Impl::grab() {
     if ( !isCapturing() ) return false;
-    callback_data.waitForFrame();
     return true;
 }
 
+bool Private_Impl::grab(unsigned char *data,uint64_t& pts) {
+    if ( !isCapturing() ) return false;
+    p=data;
+    callback_data.waitForFrame();
+    pts = callback_data.npts;
+    return true;
+}
+
+
 /**
-*
+*Not used anymore
+*Don't use this function
  */
 void Private_Impl::retrieve ( unsigned char *data, uint64_t& pts , RASPICAM_FORMAT type) {
     if ( callback_data._buffData.size == 0 ) return;
     if ( type != RASPICAM_FORMAT_IGNORE ) {
         cerr << __FILE__ << ":" << __LINE__ << " :Private_Impl::retrieve type is not RASPICAM_FORMAT_IGNORE as it should be" << endl;
     }
+   // data = callback_data._buffData.data;
     memcpy ( data, callback_data._buffData.data, getImageTypeSize ( State.captureFtm ) );
     pts = callback_data.npts;
 }
@@ -349,7 +359,7 @@ MMAL_COMPONENT_T *Private_Impl::create_camera_component ( RASPIVID_STATE *state 
     // Ensure there are enough buffers to avoid dropping frames
     if ( video_port->buffer_num < VIDEO_OUTPUT_BUFFERS_NUM )
         video_port->buffer_num = VIDEO_OUTPUT_BUFFERS_NUM;
-    
+
     video_port->buffer_size = video_port->buffer_size_recommended;
     //video_port->buffer_num = video_port->buffer_num_recommended;
 
@@ -482,7 +492,7 @@ void Private_Impl::commitFlips() {
 }
 
 /*Calculate absolute time(in microseconds) using mmal_clock framework
-* get time at same clock frequency at which timestamp is calculated 
+* get time at same clock frequency at which timestamp is calculated
 */
 uint64_t Private_Impl::gettime() {
     uint64_t time;
@@ -533,7 +543,7 @@ void Private_Impl::video_buffer_callback ( MMAL_PORT_T *port, MMAL_BUFFER_HEADER
     PORT_USERDATA *pData = ( PORT_USERDATA * ) port->userdata;
 
     bool hasGrabbed = false;
-    
+
     //pData->_mutex.lock();
     std::unique_lock<std::mutex> lck ( pData->_mutex );
     if ( pData ) {
@@ -543,7 +553,7 @@ void Private_Impl::video_buffer_callback ( MMAL_PORT_T *port, MMAL_BUFFER_HEADER
             pData->_buffData.resize ( buffer->length );
 
 
-            memcpy ( pData->_buffData.data, buffer->data, buffer->length );
+            memcpy (  p, buffer->data, buffer->length );
             pData->npts = buffer->pts;
             //tst=buffer->pts;
             pData->wantToGrab = false;
@@ -571,8 +581,6 @@ void Private_Impl::video_buffer_callback ( MMAL_PORT_T *port, MMAL_BUFFER_HEADER
             printf ( "Unable to return a buffer to the encoder port\n" );
     }
 
-    if ( pData->pstate->shutterSpeed != 0 )
-        mmal_port_parameter_set_uint32 ( pData->pstate->camera_component->control, MMAL_PARAMETER_SHUTTER_SPEED, pData->pstate->shutterSpeed ) ;
     if ( hasGrabbed ) pData->Thcond.BroadCast(); //wake up waiting client
 
 }

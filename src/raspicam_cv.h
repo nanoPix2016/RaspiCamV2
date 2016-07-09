@@ -1,6 +1,6 @@
 /**
  * Originally Raspicam-0.1.3
- * Modified into OurRaspicam-1.0.0
+ * Modified into Raspicam v2
  * Fixed many bugs and added functionality
  * By:  ThreePixelsTeam(Subrato Chakraborty, Om Sahoo and Piyush Soni)
  * 		IIT Varanasi
@@ -80,11 +80,17 @@ public:
      * Grabs the next frame from video file or capturing device.
      */
     bool grab();
+    bool grab(cv::Mat& image);
+    bool grab(cv::Mat& image,uint64_t& pts);
 
     /**
-    *Decodes and returns the grabbed video frame.
+    *Decodes and returns the grabbed video frame. 
+     *This functionality has been removed. 
+     *Proceed with caution.
+     *Only to be consistent with the old raspicam 
      */
     void retrieve ( cv::Mat& image , uint64_t& pts);
+    void retrieve ( cv::Mat& image);
 
     /**Returns the specified VideoCapture property
      */

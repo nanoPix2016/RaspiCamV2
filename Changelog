@@ -1,3 +1,11 @@
+2.0.0
+  - Buffer nob bug fixed. Previously it was not handled properly
+  - Improved response time by copying the buffer data once instead of twice
+  - Can get time(MMAL_PARAMETER_SYSTEM_TIME) at any moment using getTime() function
+  - Can get the Presentation Time Stamp(PTS) of every frame
+  - Stopped initializing the frames everytime the grab funtion was called
+  - retrieve() function is deprecated. Using grab() directly is recommended
+  - fixed a number of other bugs
 0.1.3
   - Native support for BGR and RGB in opencv classes. No need to do conversion anymore.
 0.1.2

@@ -1,11 +1,11 @@
 /**
  * Originally Raspicam-0.1.3
- * Modified into OurRaspicam-1.0.0
+ * Modified into Raspicam v2
  * Fixed many bugs and added functionality
  * By:  ThreePixelsTeam(Subrato Chakraborty, Om Sahoo and Piyush Soni)
  * 		IIT Varanasi
  * 		 
- */ 		
+ */
 
 /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
@@ -119,6 +119,7 @@ namespace raspicam {
             /**Grabs the next frame and keeps it in internal buffer. Blocks until next frame arrives
             */
             bool grab();
+	    bool grab(unsigned char* data,uint64_t& pts);
             /**Retrieves the buffer previously grabbed.
             * NOTE: Change in version 0.0.5. Format is stablished in setFormat function
             * So type param is ignored. Do not use this parameter.

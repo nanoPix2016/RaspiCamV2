@@ -1,11 +1,11 @@
 /**
  * Originally Raspicam-0.1.3
- * Modified into OurRaspicam-1.0.0
+ * Modified into Raspicam v2
  * Fixed many bugs and added functionality
  * By:  ThreePixelsTeam(Subrato Chakraborty, Om Sahoo and Piyush Soni)
  * 		IIT Varanasi
- * 		 
- */ 		
+ *
+ */
 
 /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
@@ -82,6 +82,17 @@ bool RaspiCam_Cv::grab() {
     return _impl->grab();
 }
 
+bool RaspiCam_Cv::grab(cv::Mat& image,uint64_t& pts) {
+   // image.create ( _impl->getHeight(), _impl->getWidth(), imgFormat );
+    return _impl->grab(image.ptr<uchar> (0),pts);
+}
+
+bool RaspiCam_Cv::grab(cv::Mat& image) {
+   // image.create ( _impl->getHeight(), _impl->getWidth(), imgFormat );
+    uint64_t pts;
+    return _impl->grab(image.ptr<uchar> (0),pts);
+}
+
 /**
  * gives the correct time in microseconds
  */
@@ -89,13 +100,35 @@ uint64_t RaspiCam_Cv::getTime() {
     uint64_t time = _impl->gettime();
     return time;
 }
+
+
+
+   /**
+     *Decodes and returns the grabbed video frame.
+     *This functionality has been removed.
+     *Proceed with caution.
+     *Only to be consistent with the old raspicam
+     */
+
+void RaspiCam_Cv::retrieve ( cv::Mat& image ) {
+    uint64_t pts;
+    //here we go!
+    //image.create ( _impl->getHeight(), _impl->getWidth(), imgFormat );
+    //_impl->retrieve ( image.ptr<uchar> ( 0 ), pts);
+    _impl->grab(image.ptr<uchar> (0),pts);
+}
 /**
-*Decodes and returns the grabbed video frame.
- */
+     *Decodes and returns the grabbed video frame along with the presentation time stamp.
+     *This functionality has been removed.
+     *Proceed with caution.
+     *Only to be consistent with the old raspicam
+     */
+
 void RaspiCam_Cv::retrieve ( cv::Mat& image, uint64_t& pts ) {
     //here we go!
-    image.create ( _impl->getHeight(), _impl->getWidth(), imgFormat );
-    _impl->retrieve ( image.ptr<uchar> ( 0 ), pts);
+    //image.create ( _impl->getHeight(), _impl->getWidth(), imgFormat );
+    //_impl->retrieve ( image.ptr<uchar> (0), pts);
+    _impl->grab(image.ptr<uchar> (0),pts);
 }
 
 /**Returns the specified VideoCapture property
@@ -122,13 +155,13 @@ double RaspiCam_Cv::get ( int propId ) {
     case CV_CAP_PROP_SATURATION :
         return  Scaler::scale ( -100, 100, 0, 100, _impl->getSaturation() );;
     case CV_CAP_PROP_HUE :
-        return Scaler::scale ( -100,100,0,100,  _impl->getSharpness() ); 
+        return Scaler::scale ( -100,100,0,100,  _impl->getSharpness() );
     case CV_CAP_PROP_GAIN :
         return  Scaler::scale ( 0, 800, 0, 100, _impl->getISO() );
     case CV_CAP_PROP_EXPOSURE :
         if ( _impl->getShutterSpeed() == 0 )
             return -1;//auto
-        else return Scaler::scale (0, 330000, 0, 100, _impl->getShutterSpeed() )  ;
+        else return Scaler::scale (0, 330000, 0, 330, _impl->getShutterSpeed() )  ;
         break;
     case CV_CAP_PROP_CONVERT_RGB :
         return ( imgFormat == CV_8UC3 );
@@ -190,7 +223,7 @@ bool RaspiCam_Cv::set ( int propId, double value ) {
         break;
     case CV_CAP_PROP_EXPOSURE :
         if ( value > 0 && value <= 100 ) {
-            _impl->setShutterSpeed ( Scaler::scale ( 0, 100, 0, 330000, value ) );
+            _impl->setShutterSpeed ( Scaler::scale ( 0, 330, 0, 330000, value ) );
         } else {
             _impl->setExposure ( RASPICAM_EXPOSURE_AUTO );
             _impl->setShutterSpeed ( 0 );
